@@ -1,0 +1,328 @@
+name: "ACTOR"
+
+# ------------------- GENERAL INPUTS - START ------------------------------
+
+# ------------------------- STATE INPUTS + DUMMY - START ------------------
+layer {
+  name: "data"
+  type: "Input"
+  top: "data"
+  input_param { shape: {dim: 40 dim: 128 dim: 41 dim: 23} }
+}
+layer {
+  name: "canvas"
+  type: "Input"
+  top: "canvas"
+  input_param { shape: {dim: 40 dim: 45} }
+}
+layer {
+  name: "rig"
+  type: "Input"
+  top: "rig"
+  input_param { shape: {dim: 40 dim: 45} }
+}
+layer {
+  name: "aux"
+  type: "Input"
+  top: "aux"
+  input_param { shape: {dim: 40 dim: 20} }
+}
+
+# This contains the constant for the tanh for the elevation angle
+layer {
+  name: "elev_mult"
+  type: "Input"
+  top: "elev_mult"
+  input_param { shape: {dim: 40 dim: 1} }
+}
+# ------------------------- STATE INPUTS + DUMMY - END --------------------
+
+# ----------------------- REWARDS - START ---------------------------------
+layer {
+  name: "reward_mises"
+  type: "Input"
+  top: "reward_mises"
+  input_param { shape: {dim: 40 dim: 2} }
+}
+# ----------------------- REWARDS - END -----------------------------------
+
+# ----------------------- ACTION INPUT - START ----------------------------
+
+# neg_angle_pred is used in the cosine-shaped loss function in the RL
+# learning
+layer {
+  name: "neg_angle_pred"
+  type: "Input"
+  top: "neg_angle_pred"
+  input_param { shape: {dim: 40 dim: 2} }
+}
+
+# m is the precision parameter of a von Mises distribution
+layer {
+  name: "m"
+  type: "Input"
+  top: "m"
+  input_param { shape: {dim: 40 dim: 2} }
+}
+
+# This contains the constant for the tanh for the azimuth angle.
+layer {
+  type: "DummyData"
+  name: "azim_mult"
+  top: "azim_mult"
+  dummy_data_param {
+    shape: { dim: 40 dim: 1 }
+    data_filler: { type: "constant" value: 3.141592653589793 }
+  }
+}
+# ----------------------- ACTION INPUT - END ------------------------------
+
+# ------------------- GENERAL INPUTS - END --------------------------------
+
+# ------------------- ADDITIONAL CONV LAYERS FOR BLOB - START -------------
+
+# conv1 output has size "21 x 21 x 8 x batch-size"
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  convolution_param {
+    num_output: 8
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "conv1"
+  top: "conv1"
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2 
+    stride: 2
+  }
+}
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv2"
+  convolution_param {
+    num_output: 4
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "conv2"
+  top: "conv2"
+}
+
+# ------------------- ADDITIONAL CONV LAYERS FOR BLOB - END ---------------
+
+# ---------------------- FLAT+CONCAT INPUT - START ------------------------
+layer {
+  name: "data_flat"
+  type: "Flatten"
+  top: "data_flat"
+  bottom: "conv2"
+}
+layer {
+  name: "data_canvas"
+  type: "Concat"
+  bottom: "data_flat"
+  bottom: "canvas"
+  top: "data_canvas"
+}
+layer {
+  name: "data_rig"
+  type: "Concat"
+  bottom: "data_flat"
+  bottom: "rig"
+  top: "data_rig"
+}
+layer {
+  name: "data_canvas_rig"
+  type: "Concat"
+  bottom: "data_canvas"
+  bottom: "rig"
+  top: "data_canvas_rig"
+}
+layer {
+  name: "fc1_input"
+  type: "Concat"
+  bottom: "data_canvas_rig"
+  bottom: "aux"
+  top: "fc1_input"
+}
+# ------------------- FLAT+CONCAT INPUT - END -----------------------------
+
+# -------------------------- FC LAYERS - START ----------------------------
+layer {
+  name: "fc1_mises"
+  type: "InnerProduct"
+  bottom: "fc1_input"
+  top: "fc1_mises"
+  inner_product_param {
+    num_output: 1024
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "tanh1_mises"
+  type: "TanH"
+  bottom: "fc1_mises"
+  top: "fc1_mises"
+}
+layer {
+  name: "fc2_mises"
+  type: "InnerProduct"
+  bottom: "fc1_mises"
+  top: "fc2_mises"
+  inner_product_param {
+    num_output: 512
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+layer {
+  name: "tanh2_mises"
+  type: "TanH"
+  bottom: "fc2_mises"
+  top: "fc2_mises"
+}
+layer {
+  name: "fc3_mises"
+  type: "InnerProduct"
+  bottom: "fc2_mises"
+  top: "fc3_mises"
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+# -------------------------- FC LAYERS - END ------------------------------
+
+# --------------- ACTION PROBABILITY HEADS - START ------------------------
+layer {
+  name: "tanh"
+  type: "TanH"
+  bottom: "fc3_mises"
+  top: "tanh"
+}
+# Contains the concatenation for the multiplier for the two angels of the
+# sphere
+layer {
+  name: "angles_mult"
+  type: "Concat"
+  bottom: "azim_mult"
+  bottom: "elev_mult"
+  top: "angles_mult"
+}
+# The output angels: [azimuth,  elevation]
+layer {
+  name: "angles"
+  type: "Eltwise"
+  bottom: "tanh"
+  bottom: "angles_mult"
+  top: "angles"
+  eltwise_param: {
+    operation: PROD
+  }
+}
+# --------------- ACTION PROBABILITY HEADS - END --------------------------
+
+# ---------------------- LOSSES - START -----------------------------------
+# This should be negative, since we use EltWise SUM in difference
+layer {
+  name: "angle_diff"
+  type: "Eltwise"
+  eltwise_param: {
+    operation: SUM
+  }
+  bottom: "neg_angle_pred"
+  bottom: "angles"
+  top: "angle_diff"
+}
+layer {
+  name: "cos"
+  type: "Cos"
+  bottom: "angle_diff"
+  top: "cos"
+}
+layer {
+  name: "von_mises"
+  type: "Eltwise"
+  eltwise_param: {
+    operation: PROD
+  }
+  bottom: "m"
+  bottom: "cos"
+  top: "von_mises"
+}
+layer {
+  name: "rew_prod_mises"
+  type: "Eltwise"
+  eltwise_param: {
+    operation: PROD
+  }
+  bottom: "reward_mises"
+  bottom: "von_mises"
+  top: "rew_prod_mises"
+}
+layer {
+  name: "loss_von_mises"
+  type: "Reduction"
+  reduction_param: {
+    operation: SUM
+  }
+  bottom: "rew_prod_mises"
+  top: "loss_von_mises"
+  loss_weight: 1
+}
+# ---------------------- LOSSES - END -------------------------------------
+
+layer {
+  name: "silence_layer"
+  type: "Silence"
+  bottom: "data_rig"
+  bottom: "data_canvas_rig"
+}

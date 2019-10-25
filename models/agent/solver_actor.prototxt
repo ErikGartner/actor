@@ -1,0 +1,13 @@
+net: "models/agent/train_actor.prototxt"
+solver_mode: GPU
+
+display: 10000
+random_seed: 0
+
+type: "Adam"
+base_lr: 1e-06
+gamma: 0.5
+lr_policy: "multistep"
+
+weight_decay: 0
+stepvalue: 1500000

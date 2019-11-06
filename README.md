@@ -18,7 +18,7 @@ a public [TensorFlow implementation](https://gist.github.com/alesolano/b073d8ec9
 If you find this implementation and/or our paper interesting or helpful, please consider citing:
 
     @article{pirinen2019self,
-        Author = {Aleksis Pirinen, Erik Gärtner and Cristian Sminchisescu},
+        Author = {Aleksis Pirinen, Erik G{\"a}rtner and Cristian Sminchisescu},
         Title = {Domes to Drones: Self-Supervised Active Triangulation for 3D Human Pose Reconstruction},
         Journal = {NeurIPS},
         Year = {2019}

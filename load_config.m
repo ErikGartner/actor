@@ -32,10 +32,6 @@ CONFIG.predictor_use_blob = 'conv4_4_CPM';
 CONFIG.predictor_limited_caching = 0;
 CONFIG.training_eps_per_scene = 1; % Number of training eps before changing scene.
 
-CONFIG.op_weights = '../openpose/models/pose/mpi/pose_iter_160000.caffemodel';
-CONFIG.op_deploy_proto = 'models/openpose/pose/mpi/pose_deploy_linevec_faster_4_stages.prototxt';
-CONFIG.op_cache_path = strcat('../panoptic-cache-hd-final-multi-id/', CONFIG.train_mode, '/openpose/');
-
 CONFIG.triangulation_max_reproj_err = 100; % Limit for maximum reprojection error of triangulated points.
 
 % ------------------ POSE PREDICTOR PARAMS - END ------------------------------------
@@ -93,8 +89,8 @@ CONFIG.agent_eval_same_cam_strategy = ''; % '', 'random' or 'continue'
 CONFIG.panoptic_joint_mapping = [9, 11, 1, 12, 13, 14, 5, 6, 7, 15, 16, 17, 2, 3, 4];
 CONFIG.panoptic_scaling_factor = 0.1; % The ratio between cm and mm
 
-CONFIG.panoptic_scene_filter_train = {'pose', 'ult'}; % {'pose'} --> exclude all "pose" scenes
-CONFIG.panoptic_scene_filter_eval = {'pose', 'maf'};
+CONFIG.panoptic_scene_filter_train = {}; % {'pose'} --> exclude all "pose" scenes
+CONFIG.panoptic_scene_filter_eval = {};
 
 CONFIG.panoptic_match_cost_thresh = 0.5;
 CONFIG.panoptic_instance_cache_suffix = 'instance_tuned.mat';

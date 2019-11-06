@@ -14,6 +14,8 @@ helper.setup_caffe();
 
 global CONFIG
 
+CONFIG.use_recorder = 1;
+
 % Use global env if exists to speed up loading
 global env
 
@@ -23,7 +25,15 @@ if ~isobject(env)
 end
 
 env.reset();
-env.goto_scene(scene);
+
+if exist('scene', 'var')
+    for i = 1:numel(env.scenes)
+        env.goto_scene(i);
+        if strcmp(env.scene().scene_name, scene)
+           break;
+        end
+    end
+end
 
 if ~exist('frame', 'var')
     frame = randi(env.scene().nbr_frames);

@@ -57,5 +57,5 @@ Given the model weights (either the provided weights or your own):
 4. Set flag `CONFIG.training_agent_nbr_eps = 1;` (Note, this will not update weights, since they are updated every 40 eps.)
 5. Run `run_train_agent('train');`, results will be stored in the location of `CONFIG.output_dir`.
 
-### Acknowledgements
+## Acknowledgements
 This work was supported by the European Research Council Consolidator grant SEED, CNCS-UEFISCDI PN-III-P4-ID-PCE-2016-0535 and PCCF-2016-0180, the EU Horizon 2020 Grant DE-ENIGMA, Swedish Foundation for Strategic Research (SSF) Smart Systems Program, as well as the Wallenberg AI, Autonomous Systems and Software Program ([WASP](https://wasp-sweden.org/)) funded by the Knut and Alice Wallenberg Foundation. We would also like to thank [Patrik Persson](https://www.lu.se/lucat/user/10eb4de90f6e28dc2efccfd0269d5c92) for support with the drone experiments.

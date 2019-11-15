@@ -1,6 +1,6 @@
 Run using:
 
-```python
+```bash
 python cache_pano.py --panopticpath ~/dev/rl-pose/pixel-dataset/out/ --cachepath ~/dev/rl-pose/pixel-dataset/cache/
 ```
 

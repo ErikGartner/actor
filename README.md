@@ -5,8 +5,7 @@
 ![actor-github](docs/visualization.png)
 
 ## Overview
-Official implementation of the NeurIPS 2019 paper _Domes to Drones: Self-Supervised Active Triangulation for 3D Human Pose Reconstruction_.
-This repo contains code for reproducing the results of our proposed ACTOR model and the baselines, as well as training ACTOR on Panoptic.
+Official implementation of the NeurIPS 2019 paper [_Domes to Drones: Self-Supervised Active Triangulation for 3D Human Pose Reconstruction_](https://papers.nips.cc/paper/8646-domes-to-drones-self-supervised-active-triangulation-for-3d-human-pose-reconstruction). This repo contains code for reproducing the results of our proposed ACTOR model and the baselines, as well as training ACTOR on Panoptic. A video overview of the paper is available [here](https://youtu.be/-RQHKJjqbYU).
 
 ACTOR is implemented in [Caffe](https://github.com/BVLC/caffe). The experiments are performed in the [CMU Panoptic](http://domedb.perception.cs.cmu.edu/) multi-camera framework.
 Our ACTOR implementation uses [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) as underlying 2d pose estimator. We have used
@@ -17,11 +16,12 @@ a public [TensorFlow implementation](https://gist.github.com/alesolano/b073d8ec9
 ### Citation
 If you find this implementation and/or our paper interesting or helpful, please consider citing:
 
-    @article{pirinen2019self,
-        Author = {Aleksis Pirinen, Erik G{\"a}rtner and Cristian Sminchisescu},
-        Title = {Domes to Drones: Self-Supervised Active Triangulation for 3D Human Pose Reconstruction},
-        Journal = {NeurIPS},
-        Year = {2019}
+    @inproceedings{pirinen2019domes,
+        title={Domes to Drones: Self-Supervised Active Triangulation for 3D Human Pose Reconstruction},
+          author={Pirinen, Aleksis and G{\"a}rtner, Erik and Sminchisescu, Cristian},
+          booktitle={Advances in Neural Information Processing Systems},
+          pages={3907--3917},
+          year={2019}
     }
 
 ## Setup

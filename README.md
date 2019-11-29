@@ -18,10 +18,10 @@ If you find this implementation and/or our paper interesting or helpful, please 
 
     @inproceedings{pirinen2019domes,
         title={Domes to Drones: Self-Supervised Active Triangulation for 3D Human Pose Reconstruction},
-          author={Pirinen, Aleksis and G{\"a}rtner, Erik and Sminchisescu, Cristian},
-          booktitle={Advances in Neural Information Processing Systems},
-          pages={3907--3917},
-          year={2019}
+        author={Pirinen, Aleksis and G{\"a}rtner, Erik and Sminchisescu, Cristian},
+        booktitle={Advances in Neural Information Processing Systems},
+        pages={3907--3917},
+        year={2019}
     }
 
 ## Setup

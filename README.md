@@ -1,6 +1,6 @@
 # Domes to Drones: Self-Supervised Active Triangulation for 3D Human Pose Reconstruction
 
-**Authors:** [Erik Gärtner](https://gartner.io/)\*, [Aleksis Pirinen](https://aleksispi.github.io/)\* and [Cristian Sminchisescu](http://www.maths.lth.se/sminchisescu/) _(* denotes first authorship)_.
+**Authors:** [Erik Gärtner](https://gartner.io/)\*, [Aleksis Pirinen](https://www.ri.se/en/person/aleksis-pirinen)\* and [Cristian Sminchisescu](http://www.maths.lth.se/sminchisescu/) _(* denotes first authorship)_.
 
 ![actor-github](docs/visualization.png)
 
